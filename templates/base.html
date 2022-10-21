@@ -30,7 +30,7 @@
           {% endif %}
           {% if request.user.is_authenticated %}
             <li class="nav-item">
-              <a href="{% url 'accounts:detail' user.pk %}" class="nav-link">마이페이지</a>
+              <a href="{% url 'accounts:detail' %}" class="nav-link">마이페이지</a>
             </li>
             <li class="nav-item">
               <a href="{% url 'accounts:logout' %}" class="nav-link">로그아웃</a>

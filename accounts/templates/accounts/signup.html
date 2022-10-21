@@ -2,7 +2,7 @@
 {% load django_bootstrap5 %}
 {% block content %}
 
-  {% if request.resolver_match.url_name == 'create' %}
+  {% if request.resolver_match.url_name == 'signup' %}
     <h1>Signup</h1>
   {% else %}
     <h1>Update</h1>
@@ -10,9 +10,9 @@
 
   <form action="" method='POST'>
     {% csrf_token %}
-    {% bootstrap_form form%}
+    {% bootstrap_form form %}
 
-    {% if request.resolver_match.url_name == 'create' %}
+    {% if request.resolver_match.url_name == 'signup' %}
       {% bootstrap_button 'signup' %}
     {% else %}
       {% bootstrap_button 'update' %}
