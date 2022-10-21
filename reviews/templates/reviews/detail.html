@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <h1>{{ review.pk }}번 게시글</h1>
+  <h3>{{ review.title }}</h3>
+  <p>{{ review.content }}</p>
+
+  <a href="{% url 'reviws:update' reviw.pk %}">수정</a>
+  <a href="{% url 'reviews:delete' reviw.pk %}">삭제</a>
+{% endblock content %}
