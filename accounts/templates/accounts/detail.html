@@ -18,4 +18,36 @@
   </p>
 
   <a href="{% url 'accounts:update'%}" class='text-decoration-none'>회원정보수정</a>
+  <div class='my-5'>
+    <h1>작성한 글({{reviews|length}})</h1>
+    <hr>
+    {% for review in reviews %}
+      <div class="d-flex justify-content-between">
+        <p>{{ review.title }}</p>
+        <div class="d-flex">
+          <p class="mx-2">{{ review.created_at }}</p>
+          <div>
+            <a class='btn btn-outline-dark btn-sm' href="{% url 'reviews:detail' review.pk %}">보기</a>
+          </div>
+        </div>
+      </div>
+      <hr>
+    {% endfor %}
+  </div>
+  <div class="my-5">
+    <h1>작성한 댓글({{comments|length}})</h1>
+    <hr>
+    {% for comment in comments %}
+      <div class="d-flex justify-content-between">
+        <p>{{ comment.content }}</p>
+        <div class="d-flex">
+          <p class="mx-2">{{ comment.created_at }}</p>
+          <div>
+            <a class='btn btn-outline-dark btn-sm' href="{% url 'reviews:detail' comment.review_id %}">보기</a>
+          </div>
+        </div>
+      </div>
+      <hr>
+    {% endfor %}
+  </div>
 {% endblock content %}

@@ -26,8 +26,6 @@
           <li class="nav-item">
             <a href="{% url 'reviews:create' %}" class="nav-link">작성</a>
           </li>
-        {% endif %}
-        {% if request.user.is_authenticated %}
           <li class="nav-item">
             <a href="{% url 'accounts:detail'%}" class="nav-link">마이페이지</a>
           </li>
