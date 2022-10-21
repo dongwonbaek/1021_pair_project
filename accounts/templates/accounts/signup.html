@@ -10,7 +10,7 @@
 
   <form action="" method='POST'>
     {% csrf_token %}
-    {% bootstrap_form form%}
+    {% bootstrap_form form %}
 
     {% if request.resolver_match.url_name == 'signup' %}
       {% bootstrap_button 'signup' %}
