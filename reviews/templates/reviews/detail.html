@@ -6,6 +6,17 @@
   <h3>{{ review.title }}</h3>
   <p>{{ review.content }}</p>
 
-  <a href="{% url 'reviws:update' reviw.pk %}">수정</a>
-  <a href="{% url 'reviews:delete' reviw.pk %}">삭제</a>
+  <a href="{% url 'reviews:update' review.pk %}">수정</a>
+  <a href="{% url 'reviews:delete' review.pk %}">삭제</a>
+  {% for comment in comments %}
+    <p>{{ comment.user }}
+      |
+      {{ comment.create_at }}</p>
+    <p>{{ comment.content }}</p>
+  {% endfor %}
+  <form action="{% url 'reviews:create_comment' review.pk %}" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form comment_form %}
+    <input class='btn' type="submit" value="OK">
+  </form>
 {% endblock content %}

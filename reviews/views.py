@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Review
-from .forms import ReviewForm
+from .models import Review, Comment
+from .forms import ReviewForm, CommentForm
 # Create your views here.
 
 def index(request):
@@ -25,15 +25,17 @@ def create(request):
     }
     return render(request, 'reviews/create.html', context)
 
-def detail(request, reviews_pk):
-    review = Review.objects.get(pk=reviews_pk)
+def detail(request, pk):
+    review = Review.objects.get(pk=pk)
     context = {
         'review': review,
+        'comment_form':CommentForm(),
+        'comments': review.comment_set.all()
     }
     return render(request, 'reviews/detail.html', context)
 
-def update(request, reviews_pk):
-    review = Review.objects.get(pk=reviews_pk)
+def update(request, pk):
+    review = Review.objects.get(pk=pk)
     if request.method == 'POST':
         review_form = ReviewForm(request.POST, instance=review)
         if review_form.is_valid():
@@ -46,8 +48,21 @@ def update(request, reviews_pk):
     }
     return render(request, 'reviews/update.html', context)
 
-def delete(request, reviews_pk):
-    Review.objects.get(pk=reviews_pk).delete()
+def delete(request, pk):
+    Review.objects.get(pk=pk).delete()
     return redirect('reviews:index')
 
+def create_comment(request, pk):
+    review = Review.objects.get(pk=pk)
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.user = request.user
+            comment.save()
+            return redirect('reviews:detail', review.pk)
 
+def delete_comment(request, review_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    comment.delete()
+    return redirect('reviews:detail', review_pk)
