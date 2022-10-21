@@ -4,17 +4,36 @@
   <table class="table">
     <thead>
       <tr>
-        <th class="col-3">번호</th>
-        <th class="col-9">리뷰제목</th>
+        <th class='text-center col-2 fs-5' scope="col">영화이름</th>
+        <th class='text-center col-3 fs-5' scope="col">리뷰제목</th>
+        <th class='text-center col-2 fs-5' scope="col">평점</th>
+        <th class='text-center col-2 fs-5' scope="col">작성시간</th>
+        <th class='text-center col-2 fs-5' scope="col">작성자</th>
+        <th class='text-center col-2 fs-5' scope="col"></th>
       </tr>
     </thead>
     <tbody>
       {% for review in reviews %}
         <tr>
-          <td scope="row">{{ review.id }}</td>
-        </tr>
-        <tr>
-          <td scope="row">{{ review.title }}</td>
+          <td class='text-center' scope="col">
+            <p class='my-0'>{{ review.movie_name }}</p>
+          </td>
+          <td class='text-center' scope="col">
+            <p class='my-0'>{{ review.title }}</p>
+          </td>
+          <td class='text-center' scope="col">
+            <p class='my-0'>{{ review.grade }}
+              / 5점</p>
+          </td>
+          <td class='text-center' scope="col">
+            <p class='my-0'>{{ review.user }}</p>
+          </td>
+          <td class='text-center' scope="col">
+            <p class='my-0'>{{ review.created_at }}</p>
+          </td>
+          <td class='text-center' scope="col">
+            <a class='btn btn-outline-dark btn-sm' href="{% url 'reviews:detail' review.pk %}">보기</a>
+          </td>
         </tr>
       {% endfor %}
     </tbody>
