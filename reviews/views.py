@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Review, Comment
 from .forms import ReviewForm, CommentForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 # Create your views here.
 
 def index(request):
@@ -10,6 +13,7 @@ def index(request):
     }
     return render(request, 'reviews/index.html', context)
 
+@login_required
 def create(request):
     if request.method == 'POST':
         review_form = ReviewForm(request.POST)
@@ -36,22 +40,34 @@ def detail(request, pk):
 
 def update(request, pk):
     review = Review.objects.get(pk=pk)
-    if request.method == 'POST':
-        review_form = ReviewForm(request.POST, instance=review)
-        if review_form.is_valid():
-            review_form.save()
-            return redirect('reviews:detail', review.pk)
+    if request.user == review.user:
+        if request.method == 'POST':
+            review_form = ReviewForm(request.POST, instance=review)
+            if review_form.is_valid():
+                review_user = review_form.save(commit=False)
+                review_user.user = request.user
+                review_user.save()
+                return redirect('reviews:detail', review.pk)
+        else:
+            review_form=ReviewForm(instance=review)
+        context = {
+            'review_form': review_form,
+        }
+        return render(request, 'reviews/update.html', context)
     else:
-        review_form=ReviewForm(instance=review)
-    context = {
-        'review_form': review_form,
-    }
-    return render(request, 'reviews/update.html', context)
+        messages.warning(request, '작성자만 수정 가능합니다')
+        return redirect('reviews:detail', pk)
 
 def delete(request, pk):
-    Review.objects.get(pk=pk).delete()
-    return redirect('reviews:index')
+    review = Review.objects.get(pk=pk)
+    if review.user == request.user:
+        review.delete()
+        return redirect('reviews:index')
+    else:
+        messages.warning(request, '작성자만 삭제 가능합니다')
+        return redirect('reviews:detail', pk)
 
+@login_required
 def create_comment(request, pk):
     review = Review.objects.get(pk=pk)
     if request.method == 'POST':
@@ -65,5 +81,8 @@ def create_comment(request, pk):
 
 def delete_comment(request, review_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
-    comment.delete()
+    if comment.user == request.user:
+        comment.delete()
+    else:
+        messages.warning(request, '작성자만 삭제 가능합니다')
     return redirect('reviews:detail', review_pk)

@@ -3,6 +3,9 @@
 
 {% block content %}
   <h1>{{ review.pk }}번 게시글</h1>
+  {{ review.user }}
+  |
+  {{ request.user }}
   <h3>{{ review.title }}</h3>
   <p>{{ review.content }}</p>
   
