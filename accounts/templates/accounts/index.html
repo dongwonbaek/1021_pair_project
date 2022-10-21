@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>account.index.html</h1>
+  <h1>
+    hello,
+    {{request.user}}</h1>
+  <a href="{% url 'accounts:login' %}">login</a>
+  <hr>
+  {% for user in users %}
+    {{ user.username }}
+    <br>
+  {% endfor %}
+{% endblock content %}
