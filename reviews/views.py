@@ -59,6 +59,7 @@ def create_comment(request, pk):
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.user = request.user
+            comment.review = review
             comment.save()
             return redirect('reviews:detail', review.pk)
 
