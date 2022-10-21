@@ -5,6 +5,7 @@
     hello,
     {{request.user}}</h1>
   <a href="{% url 'accounts:login' %}">login</a>
+  <a href="{% url 'accounts:logout' %}">logout</a>
   <hr>
   {% for user in users %}
     {{ user.username }}

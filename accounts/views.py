@@ -40,3 +40,7 @@ def login(request):
         'form' : form,
     }
     return render(request, 'accounts/login.html', context)
+
+def logout(request):
+    auth_logout(request)
+    return redirect('accounts:index')
