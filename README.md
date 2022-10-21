@@ -1,4 +1,4 @@
-## Accounts
+# Accounts
 
 ### 회원 가입
 
@@ -21,11 +21,14 @@ branch account/signup
 
 - `POST` accounts/signup/
 - CustomUserCreationForm 활용
+- 회원가입 완료 후 자동으로 로그인 진행
 
 화면 Template
 
 - `GET` accounts/signup/
 - 회원가입 폼
+
+---
 
 ### 로그인
 
@@ -42,17 +45,56 @@ branch accounts/login
 - 로그인 폼
 - 회원가입 페이지 이동 버튼
 
+---
+
 ### 로그아웃
 
 branch accounts/logout
 
 기능 View
 
-- `POST` account/logout
+- `POST` accounts/logout
+
+---
+
+### 마이페이지
+
+기능 View
+
+- accounts/detail.html
+- request 정보의 user 객체에 대한 정보를 보여주며, 당연히 로그인이 필요하게 구현.
+- user의 이름, 이메일, 아이디, 작성한 글, 작성한 댓글을 명시함.
+- 작성한 글 과 작성한 댓글에는 바로 해당 글로 접근할 수 있는 링크를 삽입.
+- 회원정보수정과 회원탈퇴 버튼으로 update.html 과 delete view 함수에 접근가능하다.
+- 회원탈퇴 버튼은 Modal을 활용하여 한번 더 삭제의사를 물음으로써, 실수로 인한 계정삭제를 방지한다. 
+
+---
+
+### 회원정보
+
+기능 View
+
+- accounts/detail_user
+- 리뷰 작성자 혹은 댓글 작성자에 링크를 삽입하여 해당 유저의 정보 페이지를 볼 수 있도록 함.
+- 유저 정보에는 이름, 이메일, 작성글, 작성댓글 등이 있음.
+
+---
+
+### 내 정보 수정
+
+기능 View
+
+- Django의 기본 ModelForm 인 UserChangeForm을 상속하여 CustomUserChangeForm 생성 및 활용
+- 사용자로부터 수정할 정보를 입력받음(이름, 이메일)
+- 비밀번호 수정 버튼을 삽입하여 비밀번호 수정 폼으로 이동할 수 있게 함.
+  - 비밀번호 수정은 Django 의 PasswordChangeForm을 활용
+  - update_session_auth_hash 메서드를 활용하여 비밀번호 변경 후에도 로그인을 유지할 수 있도록 함.
+  - 비밀번호 변경 후 마이페이지로 이동
+- 수정 후 마이페이지로 이동
 
 
 
-## Reviews
+# Reviews
 
 ### 리뷰 작성
 
@@ -80,6 +122,8 @@ branch accounts/logout
 모델폼의 구성으로는 title, content, movie_name, grade 가 있음
 
 user를 외래키로 accounts 앱의 User 객체를 참조하고, views.py에서 요청을 보낸 user 객체를 review를 작성한 user에 넣는 로직을 구현.
+
+글 목록을 제외한 모든 html 페이지는 로그인을 해야 접근가능하도록 구현.
 
 ------
 
@@ -111,12 +155,12 @@ branch reviews/detail
 **화면 Template**
 
 - `GET` reviews/\<int:pk>/
-- 별점은 5점을 만점으로 1점당 별 1개씩 부여하며 나머지는 빈 별들로 대체한다.
+- 별점은 5점을 만점으로 1점당 별 1개씩 부여하며 나머지는 빈 별로 대체한다.
 - 리뷰 수정 / 삭제 버튼
   - 수정 / 삭제 버튼은 해당 리뷰 작성자에게만 출력합니다.
+- 댓글 목록
 - 댓글 작성 폼
   - 댓글 작성 폼은 로그인 사용자에게만 출력합니다.
-- 댓글 목록
 
 ------
 
@@ -128,6 +172,7 @@ branch reviews/update
 
 - `POST` reviews/\<int:pk>/update/
 - 데이터를 생성한 사용자만 수정할 수 있습니다.
+- 리뷰 수정 후 수정 된 페이지(detail.html)로 이동
 
 **화면 Template**
 
@@ -144,14 +189,13 @@ branch reviews/delete
 
 - `POST` reviews/\<int:pk>/delete/
 - 데이터를 생성한 사용자만 삭제할 수 있습니다.
+- 리뷰 삭제 후 리뷰 목록으로 이동
 
 ------
 
 ### 댓글 작성
 
 branch comments/create
-
-reviews 앱에 구현
 
 모델 Model 생성
 
@@ -172,6 +216,7 @@ reviews 앱에 구현
 
 - 리뷰 정보 조회 페이지 하단에 댓글 작성 폼 출력
 - 리뷰 정보 조회 페이지 하단에 댓글 목록 출력
+- 댓글 작성 후 현재 페이지(detail.html)유지
 
 ------
 
@@ -186,3 +231,5 @@ branch comments/delete
 
 - 각 댓글에 리뷰 삭제 버튼 추가
   - 삭제 버튼은 해당 댓글 작성자에게만 출력합니다
+- 댓글 삭제 후 현재 위치(detail.html) 그대로 유지
+
