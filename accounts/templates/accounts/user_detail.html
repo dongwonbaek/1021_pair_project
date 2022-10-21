@@ -16,29 +16,6 @@
   <p>email :
     {{ user.email }}
   </p>
-  <div class='d-flex'>
-    <a class='btn btn-outline-dark me-4' href="{% url 'accounts:update'%}">회원정보수정</a>
-    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      회원 탈퇴
-    </button>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">정말 탈퇴하시겠습니까?</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-danger">
-            탈퇴하면 작성한 글과 댓글이 모두 사라집니다. 괜찮습니까?
-          </div>
-          <div class="modal-footer">
-            <a class='btn btn-outline-danger btn-sm' href="{% url 'accounts:delete' %}">회원 탈퇴</a>
-            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">아니오</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <div class='my-5'>
     <h2>작성한 글({{reviews|length}})</h2>

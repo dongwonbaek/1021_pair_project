@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% block content %}
-  <form action="" method='POST'>
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% bootstrap_button 'login' %}
-  </form>
+  <div class='d-flex justify-content-center align-items-center my-5'>
+    <div class="text-center border border-black p-5 rounded shadow-lg mb-5 bg-body " style="width : 500px;">
+      <form action="" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% bootstrap_button 'login' %}
+      </form>
+    </div>
+  </div>
 {% endblock content %}

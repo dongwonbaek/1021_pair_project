@@ -3,16 +3,17 @@
 {% block content %}
   <table class="table">
     <thead>
-      <tr>
-        <th class='text-center col-2 fs-5' scope="col">영화이름</th>
+      <tr class="table-primary">
+        <th class='text-center  col-2 fs-5' scope="col">영화이름</th>
         <th class='text-center col-3 fs-5' scope="col">리뷰제목</th>
-        <th class='text-center col-2 fs-5' scope="col">평점</th>
+        <th class='text-center col-1 fs-5' scope="col">평점</th>
         <th class='text-center col-2 fs-5' scope="col">작성자</th>
         <th class='text-center col-2 fs-5' scope="col">작성시간</th>
+        <th class='text-center col-1 fs-5' scope="col">조회수</th>
         <th class='text-center col-2 fs-5' scope="col"></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="table-light">
       {% for review in reviews %}
         <tr>
           <td class='text-center' scope="col">
@@ -29,7 +30,10 @@
             <p class='my-0'>{{ review.user }}</p>
           </td>
           <td class='text-center' scope="col">
-            <p class='my-0'>{{ review.created_at }}</p>
+            <p class='my-0'>{{ review.created_at | date:'Y-m-d A f' }}</p>
+          </td>
+          <td class='text-center' scope="col">
+            <p class='my-0'>{{ review.view_count }}</p>
           </td>
           <td class='text-center' scope="col">
             <a class='btn btn-outline-dark btn-sm' href="{% url 'reviews:detail' review.pk %}">보기</a>
@@ -38,4 +42,3 @@
       {% endfor %}
     </tbody>
   </table>
-{% endblock content %}
