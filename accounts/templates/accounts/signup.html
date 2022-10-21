@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% block content %}
-  <h1>Signup</h1>
+
+  {% if request.resolver_match.url_name == 'create' %}
+    <h1>Signup</h1>
+  {% else %}
+    <h1>Update</h1>
+  {% endif %}
+
   <form action="" method='POST'>
     {% csrf_token %}
     {% bootstrap_form form%}
-    {% bootstrap_button 'signup' %}
+
+    {% if request.resolver_match.url_name == 'create' %}
+      {% bootstrap_button 'signup' %}
+    {% else %}
+      {% bootstrap_button 'update' %}
+      <a href="{% url 'accounts:change_password'%}">update_password</a>
+      <a href="{% url 'accounts:delete'%}">delete account</a>
+
+    {% endif %}
   </form>
 {% endblock %}
