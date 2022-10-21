@@ -73,3 +73,6 @@ def delete(request):
     request.user.delete()
     auth_logout(request)
     return redirect('accounts:index')
+
+def detail(request):
+    return render(request, 'accounts/detail.html')
