@@ -9,9 +9,8 @@ def signup(request):
     if request.method=='POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            auth_login(request.user)
-            return redirect('accounts:index')
+            form.save()
+            return redirect('accounts:login')
     else:
         form = CustomUserCreationForm()
     context = {
@@ -74,3 +73,6 @@ def delete(request):
     request.user.delete()
     auth_logout(request)
     return redirect('accounts:index')
+
+def detail(request):
+    return render(request, 'accounts/detail.html')
