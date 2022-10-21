@@ -3,12 +3,21 @@
 
 {% block content %}
   <h1>{{ review.pk }}번 게시글</h1>
-  <h3>{{ review.title }}</h3>
+
+  <h5>작성자 :
+    {{ review.user }}</h5>
+  <h3>{{ review.title }}
+    ({{ review.movie_name }})</h3>
   <p>{{ review.content }}</p>
 
   {% if review.user == request.user %}
-    <a class='btn btn-outline-secondary' href="{% url 'reviews:update' review.pk %}">수정</a>
-    <a class='btn btn-outline-secondary' href="{% url 'reviews:delete' review.pk %}">삭제</a>
+    <div class="d-flex">
+      <a class='btn btn-outline-secondary btn-sm' href="{% url 'reviews:update' review.pk %}">수정</a>
+      <form class='mx-2' action="{% url 'reviews:delete' review.pk %}" method="POST">
+        {% csrf_token %}
+        <input class='btn btn-outline-danger btn-sm' type="submit" value="삭제">
+      </form>
+    </div>
   {% endif %}
 
   <hr>
@@ -18,7 +27,10 @@
         |
         <span class='text-secondary' style='font-size:0.8rem;'>{{ comment.created_at }}</span></p>
       {% if comment.user == request.user %}
-        <a class='btn btn-outline-danger' href="{% url 'reviews:delete_comment' review.pk comment.pk %}">삭제</a>
+        <form action="{% url 'reviews:delete_comment' review.pk comment.pk %}" method="POST">
+          {% csrf_token %}
+          <input class='btn btn-outline-danger btn-sm' type="submit" value="삭제">
+        </form>
       {% endif %}
     </div>
     <p>{{ comment.content }}</p>
