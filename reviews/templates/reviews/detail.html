@@ -5,9 +5,10 @@
   <h1>{{ review.pk }}번 게시글</h1>
   <h3>{{ review.title }}</h3>
   <p>{{ review.content }}</p>
-
-  <a href="{% url 'reviews:update' review.pk %}">수정</a>
-  <a href="{% url 'reviews:delete' review.pk %}">삭제</a>
+  <div class="my-4">
+    <button class="me-2 btn btn-primary" href="{% url 'reviews:update' review.pk %}">수정</button>
+    <button class="btn btn-danger" href="{% url 'reviews:delete' review.pk %}">삭제</button>
+  </div>
   {% for comment in comments %}
     <p>{{ comment.user }}
       |
@@ -17,6 +18,6 @@
   <form action="{% url 'reviews:create_comment' review.pk %}" method="POST">
     {% csrf_token %}
     {% bootstrap_form comment_form %}
-    <input class='btn' type="submit" value="OK">
+    <input class='btn btn-warning' type="submit" value="작성">
   </form>
 {% endblock content %}
