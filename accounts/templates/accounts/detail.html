@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h1>my Page</h1>
+
+  <h1>{{ user.username }}의 페이지
+  </h1>
   <hr>
-  <p>{{ user.username }}의 페이지
-  </p>
 
   <p>first-name :
     {{ user.first_name }}

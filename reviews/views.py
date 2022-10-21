@@ -21,7 +21,8 @@ def create(request):
             form = review_form.save(commit=False)
             form.user = request.user
             form.save()
-            return redirect('reviews:index')
+            messages.success(request, '작성되었습니다.')
+            return redirect('reviews:detail', form.pk)
     else:
         review_form = ReviewForm()
     context = {
@@ -29,6 +30,7 @@ def create(request):
     }
     return render(request, 'reviews/create.html', context)
 
+@login_required
 def detail(request, pk):
     review = Review.objects.get(pk=pk)
     context = {
@@ -38,6 +40,7 @@ def detail(request, pk):
     }
     return render(request, 'reviews/detail.html', context)
 
+@login_required
 def update(request, pk):
     review = Review.objects.get(pk=pk)
     if request.user == review.user:
@@ -47,6 +50,7 @@ def update(request, pk):
                 review_user = review_form.save(commit=False)
                 review_user.user = request.user
                 review_user.save()
+                messages.success(request, '수정되었습니다.')
                 return redirect('reviews:detail', review.pk)
         else:
             review_form=ReviewForm(instance=review)
@@ -55,16 +59,17 @@ def update(request, pk):
         }
         return render(request, 'reviews/update.html', context)
     else:
-        messages.warning(request, '작성자만 수정 가능합니다')
+        messages.warning(request, '작성자만 수정 가능합니다.')
         return redirect('reviews:detail', pk)
 
+@login_required
 def delete(request, pk):
     review = Review.objects.get(pk=pk)
-    if review.user == request.user:
+    if request.method == 'POST' and review.user == request.user:
         review.delete()
         return redirect('reviews:index')
     else:
-        messages.warning(request, '작성자만 삭제 가능합니다')
+        messages.warning(request, '작성자만 삭제 가능합니다.')
         return redirect('reviews:detail', pk)
 
 @login_required
@@ -79,10 +84,11 @@ def create_comment(request, pk):
             comment.save()
             return redirect('reviews:detail', review.pk)
 
+@login_required
 def delete_comment(request, review_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
-    if comment.user == request.user:
+    if request.method == 'POST' and comment.user == request.user:
         comment.delete()
     else:
-        messages.warning(request, '작성자만 삭제 가능합니다')
+        messages.warning(request, '작성자만 삭제 가능합니다.')
     return redirect('reviews:detail', review_pk)
