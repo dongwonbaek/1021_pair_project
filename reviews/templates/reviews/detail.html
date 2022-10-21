@@ -3,17 +3,14 @@
 
 {% block content %}
   <h1>{{ review.pk }}번 게시글</h1>
-  {{ review.user }}
-  |
-  {{ request.user }}
   <h3>{{ review.title }}</h3>
   <p>{{ review.content }}</p>
-  
+
   {% if review.user == request.user %}
     <a class='btn btn-outline-secondary' href="{% url 'reviews:update' review.pk %}">수정</a>
     <a class='btn btn-outline-secondary' href="{% url 'reviews:delete' review.pk %}">삭제</a>
   {% endif %}
-  
+
   <hr>
   {% for comment in comments %}
     <div class='d-flex justify-content-between'>
@@ -30,7 +27,7 @@
   <form action="{% url 'reviews:create_comment' review.pk %}" method="POST">
     {% csrf_token %}
     {% bootstrap_form comment_form %}
-    
+
     <input class='btn btn-outline-dark' type="submit" value="OK">
   </form>
 {% endblock content %}
