@@ -56,7 +56,7 @@ def update(request):
         form = CustomUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect("reviews:index")
+            return redirect("reviews:detail")
     else:
         form = CustomUserChangeForm(instance=request.user)
     context = {
@@ -72,7 +72,7 @@ def pwupdate(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            return redirect("reviews:index")
+            return redirect("reviews:detail")
     else:
         form = PasswordChangeForm(request.user)
     context = {"form": form}
