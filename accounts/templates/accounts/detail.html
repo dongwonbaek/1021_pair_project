@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
   <h1>my Page</h1>
+  <hr>
   <p>{{ user.username }}의 페이지
   </p>
 
@@ -16,4 +17,5 @@
     {{ user.email }}
   </p>
 
+  <a href="{% url 'accounts:update'%}" class='text-decoration-none'>회원정보수정</a>
 {% endblock content %}

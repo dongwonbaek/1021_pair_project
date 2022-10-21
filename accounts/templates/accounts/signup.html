@@ -15,9 +15,9 @@
     {% if request.resolver_match.url_name == 'signup' %}
       {% bootstrap_button 'signup' %}
     {% else %}
+      <a href="{% url 'accounts:change_password'%}" class='text-decoration-none'>비밀번호 변경</a>/
+      <a href="{% url 'accounts:delete'%}" class='text-decoration-none'>회원 탈퇴</a><br>
       {% bootstrap_button 'update' %}
-      <a href="{% url 'accounts:change_password'%}">update_password</a>
-      <a href="{% url 'accounts:delete'%}">delete account</a>
 
     {% endif %}
   </form>
